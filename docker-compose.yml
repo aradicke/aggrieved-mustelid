@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+
+  public_apis:
+    build: ./backend
+    working_dir: /opt/app/harald
+    command: python manage.py runserver 0:8000
+    volumes:
+      - ./src/harald:/opt/app/harald
+    ports:
+      - "8000:8000"
+
+  internal_apis:
+    build: ./internal_backend
+    working_dir: /opt/app/william
+    command: python manage.py runserver 0:8000
+    volumes:
+      - ./src/william:/opt/app/william
+
+  db:
+    environment:
+      POSTGRES_DB: "database"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    build: ./database
