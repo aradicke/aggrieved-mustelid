@@ -1,7 +1,7 @@
 version: "3.9"
 services:
 
-  public_apis:
+  public-apis:
     build: ./backend
     working_dir: /opt/app/harald
     command: python manage.py runserver 0:8000
@@ -10,10 +10,12 @@ services:
     ports:
       - "8000:8000"
 
-  internal_apis:
+  internal-apis:
+    depends_on:
+      - db
     build: ./internal_backend
     working_dir: /opt/app/william
-    command: python manage.py runserver 0:8000
+    command: sh -c "sleep 5 && python manage.py runserver 0:8000"
     volumes:
       - ./src/william:/opt/app/william
 
